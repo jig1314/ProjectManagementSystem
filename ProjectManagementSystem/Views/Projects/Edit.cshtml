@@ -1,0 +1,210 @@
+﻿@using ProjectManagementSystem.Models
+@model ProjectManagementSystem.Models.Project
+
+@{
+    ViewData["Title"] = $"Edit {@Model.Name}";
+}
+
+<h1>@Model.Name</h1>
+
+<div class="k-content">
+    <form id="projectForm" asp-action="Edit">
+        <div id="tabStrip">
+            <ul>
+                <li class="k-state-active">
+                    General Information
+                </li>
+                <li>
+                    Team Members
+                </li>
+                <li>
+                    Risks
+                </li>
+            </ul>
+            <div id="generalInformationTab">
+                <ul id="fieldlist">
+                    <li>
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="k-textbox" />
+                    </li>
+                    <li>
+                        <label asp-for="OwnerName"></label>
+                        <input asp-for="OwnerName" class="k-textbox" />
+                    </li>
+                    <li>
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="k-textbox" />
+                    </li>
+                    <li class="actions">
+                        <button type="submit" data-role="button" data-icon="check">Update Project</button> |
+                        <a asp-action="Index" class="k-button">Back to List</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<TeamMember>()
+                    .Name("teamMemberGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(teamMember => teamMember.FirstName);
+                        columns.Bound(teamMember => teamMember.LastName);
+                        columns.Command(command => { command.Destroy(); }).Width(150);
+                    })
+                    .ToolBar(toolbar =>
+                    {
+                        toolbar.Create().Text("Add New Team Member");
+                        toolbar.Save();
+                    })
+                    .Editable(editable => editable.Mode(GridEditMode.InCell))
+                    .Navigatable()
+                    .Sortable()
+                    .Scrollable()
+                    .Pageable(pageable => pageable
+                        .Input(true)
+                        .Numeric(false))
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Events((builder) =>
+                        {
+                            builder.Sync("datasource_change");
+                        })
+                        .Batch(true)
+                        .PageSize(20)
+                        .ServerOperation(false)
+                        .Model(model => model.Id(teamMember => teamMember.Id))
+                        .Read(read =>
+                        {
+                            read.Type(HttpVerbs.Get);
+                            read.Action("Grid_Read", "TeamMembers", new { IdProject = Model.Id });
+                        })
+                        .Create(create =>
+                        {
+                            create.Type(HttpVerbs.Post);
+                            create.Action("Grid_Create", "TeamMembers", new { IdProject = Model.Id });
+                        })
+                        .Update(update =>
+                        {
+                            update.Type(HttpVerbs.Put);
+                            update.Action("Grid_Update", "TeamMembers", new { IdProject = Model.Id });
+                        })
+                        .Destroy(destroy =>
+                        {
+                            destroy.Type(HttpVerbs.Delete);
+                            destroy.Action("Grid_Destroy", "TeamMembers", new { IdProject = Model.Id });
+                        })))
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Risk>()
+                    .Name("riskGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(risk => risk.RiskName);
+                        columns.Bound(risk => risk.RiskStatus);
+                        columns.Command(command => { command.Destroy(); }).Width(150);
+                    })
+                    .ToolBar(toolbar =>
+                    {
+                        toolbar.Create().Text("Add New Risk");
+                        toolbar.Save();
+                    })
+                    .Editable(editable => editable.Mode(GridEditMode.InCell))
+                    .Navigatable()
+                    .Sortable()
+                    .Scrollable()
+                    .Pageable(pageable => pageable
+                        .Input(true)
+                        .Numeric(false))
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Events((builder) =>
+                        {
+                            builder.Sync("datasource_change");
+                        })
+                        .Batch(true)
+                        .PageSize(20)
+                        .ServerOperation(false)
+                        .Model(model => model.Id(risk => risk.Id))
+                        .Read(read =>
+                        {
+                            read.Type(HttpVerbs.Get);
+                            read.Action("Grid_Read", "Risks", new { IdProject = Model.Id });
+                        })
+                        .Create(create =>
+                        {
+                            create.Type(HttpVerbs.Post);
+                            create.Action("Grid_Create", "Risks", new { IdProject = Model.Id });
+                        })
+                        .Update(update =>
+                        {
+                            update.Type(HttpVerbs.Put);
+                            update.Action("Grid_Update", "Risks", new { IdProject = Model.Id });
+                        })
+                        .Destroy(destroy =>
+                        {
+                            destroy.Type(HttpVerbs.Delete);
+                            destroy.Action("Grid_Destroy", "Risks", new { IdProject = Model.Id });
+                        })))
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+
+        var container = $("#projectForm");
+        kendo.init(container);
+
+        $("#projectForm").kendoValidator({
+            // You can define your custom rules here:
+            //rules: {}
+        
+        });
+
+        $("#tabStrip").kendoTabStrip({
+            animation: {
+                open: {
+                    effects: "fadeIn"
+                }
+            }
+        });
+    });
+
+    function datasource_change(e) {
+        this.read();
+    }
+
+</script>
+
+<style>
+
+    #fieldlist {
+        margin: 0 0 -2em;
+        padding: 0;
+    }
+
+    #fieldlist li {
+        list-style: none;
+        padding-bottom: 1em;
+    }
+
+    #fieldlist label {
+        display: block;
+        font-weight: bold;
+    }
+    
+    #tabStrip > .k-content {
+        overflow: visible;
+    }
+
+    #fieldlist input {
+        width: 100%;
+    }
+    
+    #generalInformationTab {
+        padding-bottom: 35px
+    }
+
+</style>

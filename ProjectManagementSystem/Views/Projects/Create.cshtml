@@ -1,0 +1,71 @@
+﻿@model ProjectManagementSystem.Models.Project
+
+@{ ViewData["Title"] = "Add New Project"; }
+
+<h1>New Project</h1>
+
+<h4>Enter General Information</h4>
+<hr />
+
+<div class="k-content">
+    <form id="projectForm" asp-action="Create">
+        <ul id="fieldlist">
+            <li>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="k-textbox" />
+            </li>
+            <li>
+                <label asp-for="OwnerName"></label>
+                <input asp-for="OwnerName" class="k-textbox" />
+            </li>
+            <li>
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="k-textbox" />
+            </li>
+            <li>
+                <button id="createProject" type="submit" data-role="button" data-icon="plus">Create Project</button> |
+                <a asp-action="Index" class="k-button">Back to List</a>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var container = $("#projectForm");
+        kendo.init(container);
+
+        $("#projectForm").kendoValidator({
+            // You can define your custom rules here:
+            //rules: {}
+        });
+
+        $("#tabStrip").kendoTabStrip({
+            animation: {
+                open: {
+                    effects: "fadeIn"
+                }
+            }
+        });
+    })
+</script>
+
+<style>
+
+    #fieldlist {
+        margin: 0 0 -2em;
+        padding: 0;
+    }
+
+    #fieldlist li {
+        list-style: none;
+        padding-bottom: 1em;
+    }
+
+    #fieldlist label {
+        display: block;
+        font-weight: bold;
+    }
+
+</style>

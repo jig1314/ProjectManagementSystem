@@ -1,0 +1,118 @@
+﻿@using ProjectManagementSystem.Models
+@model ProjectManagementSystem.ViewModels.ProjectDetailsViewModel
+
+@{ ViewData["Title"] = $"{@Model.Name} Details"; }
+
+<h1>@Model.Name</h1>
+
+
+<div class="k-content">
+    <div id="tabStrip">
+        <ul>
+            <li class="k-state-active">
+                General Information
+            </li>
+            <li>
+                Team Members
+            </li>
+            <li>
+                Risks
+            </li>
+        </ul>
+        <div id="generalInformationTab">
+            <p class="label">
+                @Html.LabelFor(model => model.Name)
+            </p>
+            <ul>
+                <li class="field">
+                    @Html.DisplayTextFor(model => model.Name)
+                </li>
+            </ul>
+            <p class="label">
+                @Html.LabelFor(model => model.OwnerName)
+            </p>
+            <ul>
+                <li class="field">
+                    @Html.DisplayFor(model => model.OwnerName)
+                </li>
+            </ul>
+            <p class="label">
+                @Html.LabelFor(model => model.Description)
+            </p>
+            <ul>
+                <li class="field">
+                    @Html.DisplayFor(model => model.Description)
+                </li>
+            </ul>
+
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="k-button">Edit</a> |
+            <a asp-action="Index" class="k-button">Back to List</a>
+        </div>
+        <div>
+            @(Html.Kendo().Grid<TeamMember>(Model.TeamMembers)
+                .Name("teamMemberGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(teamMember => teamMember.FirstName);
+                    columns.Bound(teamMember => teamMember.LastName);
+                })
+                .Navigatable()
+                .Sortable()
+                .Scrollable()
+                .Pageable(pageable => pageable
+                    .Input(true)
+                    .Numeric(false)))
+        </div>
+        <div>
+            @(Html.Kendo().Grid<Risk>(Model.Risks)
+                .Name("riskGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(teamMember => teamMember.RiskName);
+                    columns.Bound(teamMember => teamMember.RiskStatus);
+                })
+                .Navigatable()
+                .Sortable()
+                .Scrollable()
+                .Pageable(pageable => pageable
+                    .Input(true)
+                    .Numeric(false)))
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+
+        $("#tabStrip").kendoTabStrip({
+            animation: {
+                open: {
+                    effects: "fadeIn"
+                }
+            }
+        });
+    });
+
+
+</script>
+
+<style>
+
+    p.label {
+        margin: 0 0 0em;
+        padding: 0;
+        display: block;
+        font-weight: bold;
+    }
+
+    li.field {
+        margin: 0 0 0em;
+        padding: 0;
+        width: 100%;
+    }
+    
+    #tabStrip > .k-content {
+        overflow: visible;
+    }
+
+</style>
