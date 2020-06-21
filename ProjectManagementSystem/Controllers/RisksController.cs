@@ -57,7 +57,7 @@ namespace ProjectManagementSystem.Controllers
                     _context.Add(risk);
                     await _context.SaveChangesAsync();
 
-                    _context.Add(new Project_Risk()
+                    _context.Add(new ProjectRisk()
                     {
                         IdProject = idProject,
                         IdRisk = risk.Id

@@ -22,7 +22,10 @@ namespace ProjectManagementSystem.Data
 
         public DbSet<ProjectManagementSystem.Models.Risk> Risk { get; set; }
 
-        public DbSet<ProjectManagementSystem.Models.Project_Risk> ProjectRisks { get; set; }
+        public DbSet<ProjectManagementSystem.Models.ProjectRisk> ProjectRisks { get; set; }
 
+        public DbSet<ProjectManagementSystem.Models.Requirement> Requirement { get; set; }
+
+        public DbSet<ProjectManagementSystem.Models.RequirementType> RequirementTypes { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace ProjectManagementSystem.Migrations
                     b.ToTable("Project");
                 });
 
-            modelBuilder.Entity("ProjectManagementSystem.Models.Project_Risk", b =>
+            modelBuilder.Entity("ProjectManagementSystem.Models.ProjectRisk", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,6 +76,47 @@ namespace ProjectManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectTeamMembers");
+                });
+
+            modelBuilder.Entity("ProjectManagementSystem.Models.Requirement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdProject")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRequirementType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RequirementName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Requirement");
+                });
+
+            modelBuilder.Entity("ProjectManagementSystem.Models.RequirementType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequirementTypes");
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Models.Risk", b =>
