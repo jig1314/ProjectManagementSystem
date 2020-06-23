@@ -1,9 +1,8 @@
 ﻿@using ProjectManagementSystem.Models
+@using ProjectManagementSystem.ViewModels
 @model ProjectManagementSystem.Models.Project
 
-@{
-    ViewData["Title"] = $"Edit {@Model.Name}";
-}
+@{ ViewData["Title"] = $"Edit {@Model.Name}"; }
 
 <h1>@Model.Name</h1>
 
@@ -19,6 +18,9 @@
                 </li>
                 <li>
                     Risks
+                </li>
+                <li>
+                    Requirements
                 </li>
             </ul>
             <div id="generalInformationTab">
@@ -145,14 +147,106 @@
                             destroy.Action("Grid_Destroy", "Risks", new { IdProject = Model.Id });
                         })))
             </div>
+            <div>
+                <div id="buttonBox">
+                    <button id="addRequirmentButton" type="button" data-role="button" data-icon="plus">Add Requirement</button>
+                </div>
 
+                @(Html.Kendo().Grid<RequirementViewModel>()
+                    .Name("requirementGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(p => p.Requirement.RequirementName);
+                        columns.Bound(p => p.Requirement.Description);
+                        columns.Bound(p => p.RequirementType.DisplayName);
+                        columns.Command(command =>
+                        {
+                            command.Custom("Edit").IconClass("k-i-pencil").Click("EditRequirement");
+                        }).Width(100);
+                        columns.Command(command =>
+                        {
+                            command.Destroy();
+                        }).Width(100);
+                    })
+                    .Navigatable()
+                    .Pageable(pageable => pageable
+                        .Input(true)
+                        .Numeric(false))
+                    .Sortable()
+                    .Scrollable()
+                    .DataSource(dataSource =>
+                    {
+                        dataSource.Ajax()
+                            .Events((builder) =>
+                            {
+                                builder.Sync("datasource_change");
+                            })
+                            .Batch(false)
+                            .AutoSync(true)
+                            .PageSize(20)
+                            .ServerOperation(false)
+                            .Model(model => model.Id(p => p.Id))
+                            .Read(read =>
+                            {
+                                read.Type(HttpVerbs.Get);
+                                read.Action("Grid_Read", "Requirements", new { IdProject = Model.Id });
+                            })
+                            .Destroy(destroy =>
+                            {
+                                destroy.Type(HttpVerbs.Delete);
+                                destroy.Action("Grid_Destroy", "Requirements");
+                            });
+                    }))
+            </div>
         </div>
-
     </form>
 </div>
 
+<div style="display: none">
+    @(Html.Kendo().Window()
+        .Name("addRequirementWindow")
+        .Title("Add New Requirement")
+        .Modal(true)
+        .Visible(false)
+        .Content("loading...")
+        .Resizable()
+        .Draggable()
+        .Height(320)
+        .Width(500)
+        .LoadContentFrom("Grid_PopupCreate", "Requirements", new { IdProject = Model.Id })
+        .Events(e =>
+        {
+            e.Close("addRequirementWindowClose");
+        })
+        .Actions(actions => actions
+            .Maximize()
+            .Close())
+        )
+</div>
+
+<div style="display: none">
+    @(Html.Kendo().Window()
+        .Name("editRequirementWindow")
+        .Title("Edit Requirement")
+        .Modal(true)
+        .Visible(false)
+        .Content("loading...")
+        .Resizable()
+        .Draggable()
+        .Height(400)
+        .Width(500)
+        .Events(e =>
+        {
+            e.Close("editRequirementWindowClose");
+        })
+        .Actions(actions => actions
+            .Maximize()
+            .Close())
+        )
+</div>
+
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         var container = $("#projectForm");
         kendo.init(container);
@@ -160,7 +254,7 @@
         $("#projectForm").kendoValidator({
             // You can define your custom rules here:
             //rules: {}
-        
+
         });
 
         $("#tabStrip").kendoTabStrip({
@@ -170,10 +264,34 @@
                 }
             }
         });
+
+        $("#addRequirmentButton").bind("click",
+            function () {
+                $("#addRequirementWindow").data("kendoWindow").center().open();
+            });
     });
+
+    function addRequirementWindowClose() {
+        $("#requirementGrid").data("kendoGrid").dataSource.read();
+    }
 
     function datasource_change(e) {
         this.read();
+    }
+
+    function EditRequirement(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        $("#editRequirementWindow").data("kendoWindow").refresh({
+            url: "/Requirements/Grid_PopupEdit/",
+            data: { IdRequirement: dataItem.Id }
+        });
+        $("#editRequirementWindow").data("kendoWindow").center().open();
+    }
+
+    function editRequirementWindowClose() {
+        $("#requirementGrid").data("kendoGrid").dataSource.read();
     }
 
 </script>
@@ -194,7 +312,7 @@
         display: block;
         font-weight: bold;
     }
-    
+
     #tabStrip > .k-content {
         overflow: visible;
     }
@@ -202,9 +320,12 @@
     #fieldlist input {
         width: 100%;
     }
-    
+
     #generalInformationTab {
         padding-bottom: 35px
     }
 
+    #buttonBox {
+        padding-bottom: 10px
+    }
 </style>

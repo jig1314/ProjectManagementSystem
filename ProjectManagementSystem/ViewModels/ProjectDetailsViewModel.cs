@@ -23,5 +23,7 @@ namespace ProjectManagementSystem.ViewModels
         public List<TeamMember> TeamMembers { get; set; }
 
         public List<Risk> Risks { get; set; }
+
+        public List<RequirementViewModel> Requirements { get; set; }
     }
 }

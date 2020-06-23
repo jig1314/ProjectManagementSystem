@@ -241,7 +241,6 @@ C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\o
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\ProjectManagementSystem.genruntimeconfig.cache
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\TeamMembers\Create.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\TeamMembers\Edit.cshtml.g.cs
-C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\ProjectManagementSystem.csprojAssemblyReference.cache
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Risks\Create.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Risks\Delete.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Risks\Details.cshtml.g.cs
@@ -252,3 +251,6 @@ C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\o
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Requirements\Details.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Requirements\Edit.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Requirements\Index.cshtml.g.cs
+C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Requirements\Grid_PopupCreate.cshtml.g.cs
+C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Requirements\Grid_PopupEdit.cshtml.g.cs
+C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\ProjectManagementSystem.csprojAssemblyReference.cache

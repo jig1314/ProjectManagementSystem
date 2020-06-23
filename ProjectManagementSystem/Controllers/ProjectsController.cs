@@ -52,12 +52,25 @@ namespace ProjectManagementSystem.Controllers
                     Name = project.Name,
                     OwnerName = project.OwnerName,
                     TeamMembers = await GetProjectTeamMembers(id),
-                    Risks = await GetProjectRisks(id)
+                    Risks = await GetProjectRisks(id),
+                    Requirements = await GetProjectRequirements(id)
                 };
-
             }
 
             return View(viewModel);
+        }
+
+        private async Task<List<RequirementViewModel>> GetProjectRequirements(int? idProject)
+        {
+            var requirements = await _context.Requirement.ToListAsync();
+            var requirementTypes = await _context.RequirementTypes.ToListAsync();
+
+            return requirements.Where(item => item.IdProject == idProject).Select(item => new RequirementViewModel()
+            {
+                Id = item.Id,
+                Requirement = item,
+                RequirementType = requirementTypes.FirstOrDefault(i => i.Id == item.IdRequirementType)
+            }).ToList();
         }
 
         public async Task<List<TeamMember>> GetProjectTeamMembers(int? idProject)
@@ -182,7 +195,8 @@ namespace ProjectManagementSystem.Controllers
                     Name = project.Name,
                     OwnerName = project.OwnerName,
                     TeamMembers = await GetProjectTeamMembers(id),
-                    Risks = await GetProjectRisks(id)
+                    Risks = await GetProjectRisks(id),
+                    Requirements = await GetProjectRequirements(id)
                 };
 
             }
@@ -218,6 +232,10 @@ namespace ProjectManagementSystem.Controllers
                 id => id,
                 (risk, id) => risk).ToList();
 
+            var requirements = await _context.Requirement.ToListAsync();
+
+            requirements = requirements.Where(r => r.IdProject == id).ToList();
+
             _context.ProjectTeamMembers.RemoveRange(projectTeamMembers);
             await _context.SaveChangesAsync();
 
@@ -228,6 +246,9 @@ namespace ProjectManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             _context.Risk.RemoveRange(risks);
+            await _context.SaveChangesAsync();
+
+            _context.Requirement.RemoveRange(requirements);
             await _context.SaveChangesAsync();
 
             _context.Project.Remove(project);

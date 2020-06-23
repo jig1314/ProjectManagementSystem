@@ -1,0 +1,49 @@
+﻿@model ProjectManagementSystem.Models.Requirement
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+    <h4>Requirement</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" id="RequirementForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="RequirementName"></label>
+                    <input asp-for="RequirementName" class="k-textbox" />
+                    <span asp-validation-for="RequirementName" class="text-danger k-invalid-msg" data-for="RequirementName"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description" class="k-textbox" />
+                    <span asp-validation-for="Description" class="text-danger k-invalid-msg" data-for="Description"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdRequirementType"></label>
+                    <kendo-numerictextbox for="IdRequirementType" />
+                    <span asp-validation-for="IdRequirementType" class="text-danger k-invalid-msg" data-for="IdRequirementType"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="k-button k-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index" class="k-button">Back to List</a>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#RequirementForm").kendoValidator({
+                // You can define your custom rules here:
+                //rules: {}
+            });
+        })
+    </script>
