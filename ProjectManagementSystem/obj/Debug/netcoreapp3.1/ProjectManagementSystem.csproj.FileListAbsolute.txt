@@ -212,10 +212,7 @@ C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\o
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Projects\Edit.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Projects\Index.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\RequirementEfforts\CreatePopUp.cshtml.g.cs
-C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\RequirementEfforts\Delete.cshtml.g.cs
-C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\RequirementEfforts\Details.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\RequirementEfforts\EditPopUp.cshtml.g.cs
-C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\RequirementEfforts\Index.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Shared\EditorTemplates\Boolean.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Shared\EditorTemplates\Country.cshtml.g.cs
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Shared\EditorTemplates\Currency.cshtml.g.cs
