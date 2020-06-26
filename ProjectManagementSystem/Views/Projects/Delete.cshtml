@@ -112,7 +112,7 @@
                 .Columns(columns =>
                 {
                     columns.Bound(p => p.Requirement.RequirementName);
-                    columns.Bound(p => p.RequirementEffortType.DisplayName).Title("Type");
+                    columns.Bound(p => p.RequirementEffortType.DisplayName);
                     columns.Bound(p => p.TeamMember.FullName).Title("Team Member");
                     columns.Bound(p => p.TimeFrame.DisplayName);
                     columns.Bound(p => p.DateFrom).ClientTemplate("#= kendo.toString(DateFrom, 'MM/dd/yyyy') #");
@@ -161,4 +161,13 @@
     #tabStrip > .k-content {
         overflow: visible;
     }
+    
+    .k-grid  .k-grid-header  .k-header  .k-link {
+        height: auto;
+    }
+  
+    .k-grid  .k-grid-header  .k-header {
+        white-space: normal;
+    }
+
 </style>

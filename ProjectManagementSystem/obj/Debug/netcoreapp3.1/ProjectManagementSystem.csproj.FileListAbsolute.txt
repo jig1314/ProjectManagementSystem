@@ -242,3 +242,5 @@ C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\o
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\ProjectManagementSystem.dll
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\ProjectManagementSystem.pdb
 C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\ProjectManagementSystem.genruntimeconfig.cache
+C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\Razor\Views\Projects\ProjectStatusPopUp.cshtml.g.cs
+C:\Users\premiere\source\repos\ProjectManagementSystem\ProjectManagementSystem\obj\Debug\netcoreapp3.1\ProjectManagementSystem.csprojAssemblyReference.cache

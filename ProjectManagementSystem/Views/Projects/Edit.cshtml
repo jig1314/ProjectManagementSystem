@@ -74,7 +74,7 @@
                             builder.Sync("teamdatasource_change");
                         })
                         .Batch(true)
-                        .PageSize(20)
+                        .PageSize(10)
                         .ServerOperation(false)
                         .Model(model => model.Id(teamMember => teamMember.Id))
                         .Read(read =>
@@ -126,7 +126,7 @@
                             builder.Sync("datasource_change");
                         })
                         .Batch(true)
-                        .PageSize(20)
+                        .PageSize(10)
                         .ServerOperation(false)
                         .Model(model => model.Id(risk => risk.Id))
                         .Read(read =>
@@ -183,7 +183,7 @@
                                 builder.Sync("requirementdatasource_change");
                             })
                             .Batch(true)
-                            .PageSize(20)
+                            .PageSize(10)
                             .ServerOperation(false)
                             .Model(model =>
                             {
@@ -214,7 +214,11 @@
             </div>
             <div>
                 <div id="effortButtonBox">
-                    <button id="addRequirmentEffortButton" type="button" data-role="button" data-icon="plus">Add Effort</button>
+                    <button id="addRequirmentEffortButton" type="button" data-role="button" data-icon="plus">Add Effort</button> | 
+                    @(Html.Kendo().Button()
+                        .Name("viewProjectAnalysisButton")
+                        .HtmlAttributes(new { type = "button" })
+                        .Content("Analyze Project Status"))
                 </div>
 
                 @(Html.Kendo().Grid<RequirementEffortViewModel>()
@@ -222,7 +226,7 @@
                     .Columns(columns =>
                     {
                         columns.Bound(p => p.Requirement.RequirementName);
-                        columns.Bound(p => p.RequirementEffortType.DisplayName).Title("Type");
+                        columns.Bound(p => p.RequirementEffortType.DisplayName);
                         columns.Bound(p => p.TeamMember.FullName).Title("Team Member");
                         columns.Bound(p => p.TimeFrame.DisplayName);
                         columns.Bound(p => p.DateFrom).ClientTemplate("#= kendo.toString(DateFrom, 'MM/dd/yyyy') #");
@@ -252,7 +256,7 @@
                             })
                             .Batch(false)
                             .AutoSync(true)
-                            .PageSize(20)
+                            .PageSize(10)
                             .ServerOperation(false)
                             .Model(model =>
                             {
@@ -323,6 +327,21 @@
         )
 </div>
 
+<div style="display: none">
+    @(Html.Kendo().Window()
+        .Name("viewProjectAnalysisWindow")
+        .Title($"{@Model.Name} Status")
+        .Modal(true)
+        .Visible(false)
+        .Content("loading...")
+        .Resizable()
+        .Draggable()
+        .LoadContentFrom("ProjectStatusPopUp", "Projects", new { IdProject = Model.Id })
+        .Actions(actions => actions
+            .Close())
+        )
+</div>
+
 <script>
     $(document).ready(function () {
 
@@ -345,10 +364,15 @@
 
         $("#addRequirmentEffortButton").bind("click",
             function () {
+                $("#addRequirmentEffortWindow").data("kendoWindow").refresh();
                 $("#addRequirmentEffortWindow").data("kendoWindow").center().open();
             });
 
-        $("#addRequirmentEffortWindow").data("kendoWindow").close();
+        $("#viewProjectAnalysisButton").bind("click",
+            function () {
+                $("#viewProjectAnalysisWindow").data("kendoWindow").refresh();
+                $("#viewProjectAnalysisWindow").data("kendoWindow").maximize().open();
+            });
 
     });
 
@@ -359,16 +383,15 @@
     function requirementdatasource_change(e) {
         this.read();
         $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
-        $("#addRequirmentEffortWindow").data("kendoWindow").refresh();
     }
 
     function teamdatasource_change(e) {
         this.read();
         $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
-        $("#addRequirmentEffortWindow").data("kendoWindow").refresh();
     }
 
     function addRequirmentEffortWindowClose() {
+        $("#createPopUpDateTo").data("kendoDatePicker").enable(false);
         $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
     }
 
@@ -414,6 +437,7 @@
     }
 
     function editRequirementEffortWindowClose() {
+        $("#editPopUpDateTo").data("kendoDatePicker").enable(false);
         $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
     }
 
@@ -481,4 +505,13 @@
     #effortButtonBox {
         padding-bottom: 10px
     }
+
+    .k-grid  .k-grid-header  .k-header  .k-link {
+        height: auto;
+    }
+  
+    .k-grid  .k-grid-header  .k-header {
+        white-space: normal;
+    }
+
 </style>

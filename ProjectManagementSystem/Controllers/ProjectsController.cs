@@ -308,6 +308,23 @@ namespace ProjectManagementSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public ActionResult ProjectStatusPopUp(int idProject)
+        {
+            var project = _context.Project
+                .FirstOrDefault(m => m.Id == idProject);
+
+            var viewModel = new ProjectDetailsViewModel()
+            {
+                Id = project.Id,
+                Description = project.Description,
+                Name = project.Name,
+                OwnerName = project.OwnerName,
+                RequirementEfforts = GetProjectRequirementEfforts(idProject).Result
+            };
+
+            return PartialView(viewModel);
+        }
+
         private bool ProjectExists(int id)
         {
             return _context.Project.Any(e => e.Id == id);

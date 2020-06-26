@@ -6,7 +6,6 @@
 
 <h1>@Model.Name</h1>
 
-
 <div class="k-content">
     <div id="tabStrip">
         <ul>
@@ -102,26 +101,48 @@
                     .Numeric(false)))
         </div>
         <div>
+            <div id="effortButtonBox">
+                @(Html.Kendo().Button()
+                    .Name("viewProjectAnalysisButton")
+                    .HtmlAttributes(new { type = "button" })
+                    .Content("Analyze Project Status"))
+            </div>
+
             @(Html.Kendo().Grid<RequirementEffortViewModel>(Model.RequirementEfforts)
-                    .Name("requirementEffortGrid")
-                    .Columns(columns =>
-                    {
-                        columns.Bound(p => p.Requirement.RequirementName);
-                        columns.Bound(p => p.RequirementEffortType.DisplayName).Title("Type");
-                        columns.Bound(p => p.TeamMember.FullName).Title("Team Member");
-                        columns.Bound(p => p.TimeFrame.DisplayName);
-                        columns.Bound(p => p.DateFrom).ClientTemplate("#= kendo.toString(DateFrom, 'MM/dd/yyyy') #");
-                        columns.Bound(p => p.DateTo).ClientTemplate("#= kendo.toString(DateTo, 'MM/dd/yyyy') #");
-                        columns.Bound(p => p.TimeExpended);
-                    })
-                    .Navigatable()
-                    .Pageable(pageable => pageable
-                        .Input(true)
-                        .Numeric(false))
-                    .Sortable()
-                    .Scrollable())
+                .Name("requirementEffortGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(p => p.Requirement.RequirementName);
+                    columns.Bound(p => p.RequirementEffortType.DisplayName);
+                    columns.Bound(p => p.TeamMember.FullName).Title("Team Member");
+                    columns.Bound(p => p.TimeFrame.DisplayName);
+                    columns.Bound(p => p.DateFrom).ClientTemplate("#= kendo.toString(DateFrom, 'MM/dd/yyyy') #");
+                    columns.Bound(p => p.DateTo).ClientTemplate("#= kendo.toString(DateTo, 'MM/dd/yyyy') #");
+                    columns.Bound(p => p.TimeExpended);
+                })
+                .Navigatable()
+                .Pageable(pageable => pageable
+                    .Input(true)
+                    .Numeric(false))
+                .Sortable()
+                .Scrollable())
         </div>
     </div>
+</div>
+
+<div style="display: none">
+    @(Html.Kendo().Window()
+        .Name("viewProjectAnalysisWindow")
+        .Title($"{@Model.Name} Status")
+        .Modal(true)
+        .Visible(false)
+        .Content("loading...")
+        .Resizable()
+        .Draggable()
+        .LoadContentFrom("ProjectStatusPopUp", "Projects", new { IdProject = Model.Id })
+        .Actions(actions => actions
+            .Close())
+        )
 </div>
 
 <script>
@@ -134,8 +155,12 @@
                 }
             }
         });
-    });
 
+        $("#viewProjectAnalysisButton").bind("click",
+            function () {
+                $("#viewProjectAnalysisWindow").data("kendoWindow").maximize().open();
+            });
+    });
 
 </script>
 
@@ -156,6 +181,18 @@
     
     #tabStrip > .k-content {
         overflow: visible;
+    }
+
+    #effortButtonBox {
+        padding-bottom: 10px
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
     }
 
 </style>

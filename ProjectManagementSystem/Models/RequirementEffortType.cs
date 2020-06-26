@@ -12,7 +12,7 @@ namespace ProjectManagementSystem.Models
         [Key]
         public int Id { get; set; }
 
-        [DisplayName("Requirement Effort Type")]
+        [DisplayName("Effort Type")]
         [Required]
         public string DisplayName { get; set; }
     }
