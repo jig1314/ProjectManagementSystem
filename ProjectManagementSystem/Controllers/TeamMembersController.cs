@@ -109,8 +109,14 @@ namespace ProjectManagementSystem.Controllers
             {
                 foreach (var teamMember in teamMembers)
                 {
+                    var requirementEfforts = await _context.RequirementEffort.ToListAsync();
+                    requirementEfforts = requirementEfforts.Where(req => req.IdTeamMember == teamMember.Id).ToList();
+
                     var projectMemberships = await _context.ProjectTeamMembers.ToListAsync();
                     projectMemberships = projectMemberships.Where(item => item.IdTeamMember == teamMember.Id).ToList();
+
+                    _context.RequirementEffort.RemoveRange(requirementEfforts);
+                    await _context.SaveChangesAsync();
 
                     _context.ProjectTeamMembers.RemoveRange(projectMemberships);
                     await _context.SaveChangesAsync();

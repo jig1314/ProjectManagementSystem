@@ -71,7 +71,7 @@
                         .Ajax()
                         .Events((builder) =>
                         {
-                            builder.Sync("datasource_change");
+                            builder.Sync("teamdatasource_change");
                         })
                         .Batch(true)
                         .PageSize(20)
@@ -357,6 +357,12 @@
     }
 
     function requirementdatasource_change(e) {
+        this.read();
+        $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
+        $("#addRequirmentEffortWindow").data("kendoWindow").refresh();
+    }
+
+    function teamdatasource_change(e) {
         this.read();
         $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
         $("#addRequirmentEffortWindow").data("kendoWindow").refresh();
