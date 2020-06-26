@@ -12,8 +12,14 @@ namespace ProjectManagementSystem.ViewModels
     {
         public int Id { get; set; }
 
-        public Requirement Requirement { get; set; }
+        [DisplayName("Requirement")]
+        [Required]
+        public string RequirementName { get; set; }
 
+        [Required]
+        public string Description { get; set; }
+
+        [UIHint("RequirementTypeDropDown")]
         public RequirementType RequirementType { get; set; }
     }
 }

@@ -22,6 +22,9 @@
             <li>
                 Requirements
             </li>
+            <li>
+                Monitoring And Tracking
+            </li>
         </ul>
         <div id="generalInformationTab">
             <p class="label">
@@ -87,8 +90,8 @@
                 .Name("requirementGrid")
                 .Columns(columns =>
                 {
-                    columns.Bound(p => p.Requirement.RequirementName);
-                    columns.Bound(p => p.Requirement.Description);
+                    columns.Bound(p => p.RequirementName);
+                    columns.Bound(p => p.Description);
                     columns.Bound(p => p.RequirementType.DisplayName);
                 })
                 .Navigatable()
@@ -97,6 +100,26 @@
                 .Pageable(pageable => pageable
                     .Input(true)
                     .Numeric(false)))
+        </div>
+        <div>
+            @(Html.Kendo().Grid<RequirementEffortViewModel>(Model.RequirementEfforts)
+                    .Name("requirementEffortGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(p => p.Requirement.RequirementName);
+                        columns.Bound(p => p.RequirementEffortType.DisplayName).Title("Type");
+                        columns.Bound(p => p.TeamMember.FullName).Title("Team Member");
+                        columns.Bound(p => p.TimeFrame.DisplayName);
+                        columns.Bound(p => p.DateFrom).ClientTemplate("#= kendo.toString(DateFrom, 'MM/dd/yyyy') #");
+                        columns.Bound(p => p.DateTo).ClientTemplate("#= kendo.toString(DateTo, 'MM/dd/yyyy') #");
+                        columns.Bound(p => p.TimeExpended);
+                    })
+                    .Navigatable()
+                    .Pageable(pageable => pageable
+                        .Input(true)
+                        .Numeric(false))
+                    .Sortable()
+                    .Scrollable())
         </div>
     </div>
 </div>

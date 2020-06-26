@@ -1,4 +1,6 @@
-﻿@model ProjectManagementSystem.ViewModels.RequirementViewModel
+﻿@using ProjectManagementSystem.Models
+@using ProjectManagementSystem.ViewModels
+@model ProjectManagementSystem.ViewModels.RequirementViewModel
 
     <div class="k-content">
         <div id="requirementPopUpFormTabStrip">
@@ -6,20 +8,23 @@
                 <li class="k-state-active">
                     General Information
                 </li>
+                <li>
+                    Effort
+                </li>
             </ul>
             <div>
                 <form id="editRequirementPopUpForm" asp-action="Edit">
-                    <input type="hidden" asp-for="@Model.Id" />
+                    <input id="editId" type="hidden" asp-for="@Model.Id" />
                     <input type="hidden" asp-for="@Model.Requirement.Id" />
-                    <input type="hidden" asp-for="@Model.Requirement.IdProject" />
+                    <input id="editIdProject" type="hidden" asp-for="@Model.Requirement.IdProject" />
                     <ul id="fieldlist">
                         <li>
                             <label asp-for="@Model.Requirement.RequirementName"></label>
-                            <input id="requirementName" asp-for="@Model.Requirement.RequirementName" class="k-textbox" />
+                            <input id="editRequirementName" asp-for="@Model.Requirement.RequirementName" class="k-textbox" />
                         </li>
                         <li>
                             <label asp-for="@Model.Requirement.Description"></label>
-                            <input asp-for="@Model.Requirement.Description" class="k-textbox" />
+                            <input id="editRequirementDescription" asp-for="@Model.Requirement.Description" class="k-textbox" />
                         </li>
                         <li>
                             <label asp-for="@Model.Requirement.IdRequirementType"></label>
@@ -48,6 +53,35 @@
                         </li>
                     </ul>
                 </form>
+            </div>
+            <div>
+                <div id="requirementEffortButtonBox">
+                    <button id="addRequirmentEffortButton" type="button" data-role="button" data-icon="plus">Add Requirement Effort</button>
+                </div>
+
+                @(Html.Kendo().Grid<RequirementEffortViewModel>()
+                    .Name("requirementEffortGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.RequirementEffortType.DisplayName);
+                        columns.Bound(c => c.TimeFrame.DisplayName);
+                        columns.Bound(c => c.RequirementEffort.DateFrom);
+                        columns.Bound(c => c.RequirementEffort.DateTo);
+                        columns.Bound(c => c.RequirementEffort.TimeExpended);
+                        columns.Bound(c => c.TeamMember.FirstName);
+                        columns.Bound(c => c.TeamMember.LastName);
+                        columns.Command(command =>
+                        {
+                            command.Destroy();
+                        }).Width(100);
+                    })
+                    .Navigatable()
+                    .Pageable(pageable => pageable
+                        .Input(true)
+                        .Numeric(false))
+                    .Sortable()
+                    .Scrollable()
+                    )
             </div>
         </div>
     </div>
@@ -84,6 +118,7 @@
                     }
                 });
             });
+
     });
 
 </script>
@@ -95,13 +130,18 @@
         padding: 0;
     }
 
-        #fieldlist li {
-            list-style: none;
-            padding-bottom: 1em;
-        }
+    #fieldlist li {
+        list-style: none;
+        padding-bottom: 1em;
+    }
 
-        #fieldlist label {
-            display: block;
-            font-weight: bold;
-        }
+    #fieldlist label {
+        display: block;
+        font-weight: bold;
+    }
+
+    #requirementEffortButtonBox {
+        padding-bottom: 10px
+    }
+
 </style>

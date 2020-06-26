@@ -27,5 +27,11 @@ namespace ProjectManagementSystem.Data
         public DbSet<ProjectManagementSystem.Models.Requirement> Requirement { get; set; }
 
         public DbSet<ProjectManagementSystem.Models.RequirementType> RequirementTypes { get; set; }
+
+        public DbSet<ProjectManagementSystem.Models.RequirementEffort> RequirementEffort { get; set; }
+
+        public DbSet<ProjectManagementSystem.Models.RequirementEffortType> RequirementEffortTypes { get; set; }
+
+        public DbSet<ProjectManagementSystem.Models.TimeFrame> TimeFrames { get; set; }
     }
 }

@@ -22,9 +22,6 @@
                 <li>
                     Requirements
                 </li>
-                <li>
-                    Monitoring And Tracking
-                </li>
             </ul>
             <div id="generalInformationTab">
                 <ul id="fieldlist">
@@ -38,7 +35,7 @@
                     </li>
                     <li>
                         <label asp-for="Description"></label>
-                        <input asp-for="Description" class="k-textbox" id="editProjectDescription" />
+                        <input asp-for="Description" class="k-textbox" />
                     </li>
                     <li class="actions">
                         <button type="submit" data-role="button" data-icon="check">Update Project</button> |
@@ -47,7 +44,7 @@
                 </ul>
             </div>
             <div>
-                @(Html.Kendo().Grid<TeamMemberViewModel>()
+                @(Html.Kendo().Grid<TeamMember>()
                     .Name("teamMemberGrid")
                     .Columns(columns =>
                     {
@@ -151,86 +148,20 @@
                         })))
             </div>
             <div>
+                <div id="buttonBox">
+                    <button id="addRequirmentButton" type="button" data-role="button" data-icon="plus">Add Requirement</button>
+                </div>
+
                 @(Html.Kendo().Grid<RequirementViewModel>()
                     .Name("requirementGrid")
                     .Columns(columns =>
                     {
-                        columns.Bound(p => p.RequirementName);
-                        columns.Bound(p => p.Description);
-                        columns.Bound(p => p.RequirementType).ClientTemplate("#=RequirementType.DisplayName#");
-                        columns.Command(command =>
-                        {
-                            command.Destroy();
-                        }).Width(100);
-                    })
-                    .ToolBar(toolbar =>
-                    {
-                        toolbar.Create().Text("Add New Requirement");
-                        toolbar.Save();
-                    })
-                    .Editable(editable => editable.Mode(GridEditMode.InCell))
-                    .Navigatable()
-                    .Pageable(pageable => pageable
-                        .Input(true)
-                        .Numeric(false))
-                    .Sortable()
-                    .Scrollable()
-                    .DataSource(dataSource =>
-                    {
-                        dataSource.Ajax()
-                            .Events((builder) =>
-                            {
-                                builder.Sync("requirementdatasource_change");
-                            })
-                            .Batch(true)
-                            .PageSize(20)
-                            .ServerOperation(false)
-                            .Model(model =>
-                            {
-                                model.Id(p => p.Id);
-                                model.Field(p => p.RequirementType).DefaultValue(ViewData["defaultRequirementType"] as RequirementType);
-                            })
-                            .Read(read =>
-                            {
-                                read.Type(HttpVerbs.Get);
-                                read.Action("Grid_Read", "Requirements", new { IdProject = Model.Id });
-                            })
-                            .Create(create =>
-                            {
-                                create.Type(HttpVerbs.Post);
-                                create.Action("Grid_Create", "Requirements", new { IdProject = Model.Id });
-                            })
-                            .Update(update =>
-                            {
-                                update.Type(HttpVerbs.Put);
-                                update.Action("Grid_Update", "Requirements", new { IdProject = Model.Id });
-                            })
-                            .Destroy(destroy =>
-                            {
-                                destroy.Type(HttpVerbs.Delete);
-                                destroy.Action("Grid_Destroy", "Requirements", new { IdProject = Model.Id });
-                            });
-                    }))
-            </div>
-            <div>
-                <div id="effortButtonBox">
-                    <button id="addRequirmentEffortButton" type="button" data-role="button" data-icon="plus">Add Effort</button>
-                </div>
-
-                @(Html.Kendo().Grid<RequirementEffortViewModel>()
-                    .Name("requirementEffortGrid")
-                    .Columns(columns =>
-                    {
                         columns.Bound(p => p.Requirement.RequirementName);
-                        columns.Bound(p => p.RequirementEffortType.DisplayName).Title("Type");
-                        columns.Bound(p => p.TeamMember.FullName).Title("Team Member");
-                        columns.Bound(p => p.TimeFrame.DisplayName);
-                        columns.Bound(p => p.DateFrom).ClientTemplate("#= kendo.toString(DateFrom, 'MM/dd/yyyy') #");
-                        columns.Bound(p => p.DateTo).ClientTemplate("#= kendo.toString(DateTo, 'MM/dd/yyyy') #");
-                        columns.Bound(p => p.TimeExpended);
+                        columns.Bound(p => p.Requirement.Description);
+                        columns.Bound(p => p.RequirementType.DisplayName);
                         columns.Command(command =>
                         {
-                            command.Custom("Edit").IconClass("k-i-pencil").Click("EditRequirementEffort");
+                            command.Custom("Edit").IconClass("k-i-pencil").Click("EditRequirement");
                         }).Width(100);
                         columns.Command(command =>
                         {
@@ -254,26 +185,17 @@
                             .AutoSync(true)
                             .PageSize(20)
                             .ServerOperation(false)
-                            .Model(model =>
-                            {
-                                model.Id(p => p.Id);
-                                model.Field(p => p.RequirementEffort);
-                                model.Field(p => p.Requirement);
-                                model.Field(p => p.RequirementEffortType);
-                                model.Field(p => p.TeamMember);
-                                model.Field(p => p.TimeFrame);
-                            })
+                            .Model(model => model.Id(p => p.Id))
                             .Read(read =>
                             {
                                 read.Type(HttpVerbs.Get);
-                                read.Action("Grid_Read", "RequirementEfforts", new {IdProject = Model.Id});
+                                read.Action("Grid_Read", "Requirements", new { IdProject = Model.Id });
                             })
                             .Destroy(destroy =>
                             {
                                 destroy.Type(HttpVerbs.Delete);
-                                destroy.Action("Grid_Destroy", "RequirementEfforts", new { IdProject = Model.Id });
+                                destroy.Action("Grid_Destroy", "Requirements");
                             });
-
                     }))
             </div>
         </div>
@@ -282,8 +204,8 @@
 
 <div style="display: none">
     @(Html.Kendo().Window()
-        .Name("addRequirmentEffortWindow")
-        .Title("Add Effort")
+        .Name("addRequirementWindow")
+        .Title("Add New Requirement")
         .Modal(true)
         .Visible(false)
         .Content("loading...")
@@ -291,10 +213,10 @@
         .Draggable()
         .MinHeight(320)
         .MinWidth(500)
-        .LoadContentFrom("CreatePopUp", "RequirementEfforts", new { IdProject = Model.Id })
+        .LoadContentFrom("Grid_PopupCreate", "Requirements", new { IdProject = Model.Id })
         .Events(e =>
         {
-            e.Close("addRequirmentEffortWindowClose");
+            e.Close("addRequirementWindowClose");
         })
         .Actions(actions => actions
             .Maximize()
@@ -304,8 +226,8 @@
 
 <div style="display: none">
     @(Html.Kendo().Window()
-        .Name("editRequirementEffortWindow")
-        .Title("Edit Effort")
+        .Name("editRequirementWindow")
+        .Title("Edit Requirement")
         .Modal(true)
         .Visible(false)
         .Content("loading...")
@@ -315,7 +237,7 @@
         .MinWidth(500)
         .Events(e =>
         {
-            e.Close("editRequirementEffortWindowClose");
+            e.Close("editRequirementWindowClose");
         })
         .Actions(actions => actions
             .Maximize()
@@ -343,102 +265,34 @@
             }
         });
 
-        $("#addRequirmentEffortButton").bind("click",
+        $("#addRequirmentButton").bind("click",
             function () {
-                $("#addRequirmentEffortWindow").data("kendoWindow").center().open();
+                $("#addRequirementWindow").data("kendoWindow").center().open();
             });
 
-        $("#addRequirmentEffortWindow").data("kendoWindow").close();
-
     });
+
+    function addRequirementWindowClose() {
+        $("#requirementGrid").data("kendoGrid").dataSource.read();
+    }
 
     function datasource_change(e) {
         this.read();
     }
 
-    function requirementdatasource_change(e) {
-        this.read();
-        $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
-        $("#addRequirmentEffortWindow").data("kendoWindow").refresh();
-    }
-
-    function addRequirmentEffortWindowClose() {
-        $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
-    }
-
-    function createOnSelect(e) {
-        if (e.sender.dataItem(e.item)[e.sender.options.dataTextField] == e.sender.options.optionLabel) {
-            $("#createPopUpDateFrom").data("kendoDatePicker").enable(false);
-            $("#createPopUpDateFrom").data("kendoDatePicker").value(null);
-            createPopUpDateFromChange();
-        } else {
-            $("#createPopUpDateFrom").data("kendoDatePicker").enable(true);
-            createPopUpDateFromChange();
-        }
-    }
-
-    function createPopUpDateFromChange() {
-        var dateFrom = $("#createPopUpDateFrom").data("kendoDatePicker").value();
-        var timeFrame = $("#createPopUpTimeFrame").data("kendoDropDownList").text();
-        var dateToPicker = $("#createPopUpDateTo").data("kendoDatePicker");
-
-        if (dateFrom) {
-            if (timeFrame == "Daily") {
-                dateToPicker.value(dateFrom);
-            } else if (timeFrame == "Weekly") {
-                var dateTo = new Date(dateFrom);
-                dateTo.setDate(dateTo.getDate() + 7);
-                dateToPicker.value(dateTo);
-            }
-        }
-        else {
-            dateToPicker.value(null);
-        }
-    }
-
-    function EditRequirementEffort(e) {
+    function EditRequirement(e) {
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        $("#editRequirementEffortWindow").data("kendoWindow").refresh({
-            url: "/RequirementEfforts/EditPopUp/",
-            data: { IdProject: @Model.Id, IdRequirementEffort: dataItem.Id }
+        $("#editRequirementWindow").data("kendoWindow").refresh({
+            url: "/Requirements/Grid_PopupEdit/",
+            data: { IdRequirement: dataItem.Id }
         });
-        $("#editRequirementEffortWindow").data("kendoWindow").center().open();
+        $("#editRequirementWindow").data("kendoWindow").maximize().open();
     }
 
-    function editRequirementEffortWindowClose() {
-        $("#requirementEffortGrid").data("kendoGrid").dataSource.read();
-    }
-
-    function editOnSelect(e) {
-        if (e.sender.dataItem(e.item)[e.sender.options.dataTextField] == e.sender.options.optionLabel) {
-            $("#editPopUpDateFrom").data("kendoDatePicker").enable(false);
-            $("#editPopUpDateFrom").data("kendoDatePicker").value(null);
-            editPopUpDateFromChange();
-        } else {
-            $("#editPopUpDateFrom").data("kendoDatePicker").enable(true);
-            editPopUpDateFromChange();
-        }
-    }
-
-    function editPopUpDateFromChange() {
-        var dateFrom = $("#editPopUpDateFrom").data("kendoDatePicker").value();
-        var timeFrame = $("#editPopUpTimeFrame").data("kendoDropDownList").text();
-        var dateToPicker = $("#editPopUpDateTo").data("kendoDatePicker");
-
-        if (dateFrom) {
-            if (timeFrame == "Daily") {
-                dateToPicker.value(dateFrom);
-            } else if (timeFrame == "Weekly") {
-                var dateTo = new Date(dateFrom);
-                dateTo.setDate(dateTo.getDate() + 7);
-                dateToPicker.value(dateTo);
-            }
-        }
-        else {
-            dateToPicker.value(null);
-        }
+    function editRequirementWindowClose() {
+        $("#requirementGrid").data("kendoGrid").dataSource.read();
     }
 
 </script>
@@ -472,7 +326,7 @@
         padding-bottom: 35px
     }
 
-    #effortButtonBox {
+    #buttonBox {
         padding-bottom: 10px
     }
 </style>

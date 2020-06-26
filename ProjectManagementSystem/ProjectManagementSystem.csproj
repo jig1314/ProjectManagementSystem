@@ -22,9 +22,17 @@
 
   <ItemGroup>
     <Compile Remove="Templates\**" />
+    <Compile Remove="Views\Projects\Archive\**" />
+    <Compile Remove="Views\Requirements\**" />
     <Content Remove="Templates\**" />
+    <Content Remove="Views\Projects\Archive\**" />
+    <Content Remove="Views\Requirements\**" />
     <EmbeddedResource Remove="Templates\**" />
+    <EmbeddedResource Remove="Views\Projects\Archive\**" />
+    <EmbeddedResource Remove="Views\Requirements\**" />
     <None Remove="Templates\**" />
+    <None Remove="Views\Projects\Archive\**" />
+    <None Remove="Views\Requirements\**" />
   </ItemGroup>
 
   <ItemGroup>

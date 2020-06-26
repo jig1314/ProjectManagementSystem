@@ -1,0 +1,121 @@
+﻿@model ProjectManagementSystem.Models.RequirementEffort
+
+<div class="k-content">
+    <form id="createRequirementEffortPopUpForm" asp-action="Create">
+        <ul id="fieldlist">
+            <li>
+                <label asp-for="@Model.IdRequirement"></label>
+                @(Html.Kendo().DropDownListFor(m => m.IdRequirement)
+                    .HtmlAttributes(new {style = "width:100%"})
+                    .OptionLabel("Select a Requirement...")
+                    .DataTextField("RequirementName")
+                    .DataValueField("Id")
+                    .BindTo((System.Collections.IEnumerable)ViewData["requirements"]))
+            </li>
+            <li>
+                <label asp-for="@Model.IdRequirementEffortType"></label>
+                @(Html.Kendo().DropDownListFor(m => m.IdRequirementEffortType)
+                    .HtmlAttributes(new {style = "width:100%"})
+                    .OptionLabel("Select an Effort Type...")
+                    .DataTextField("DisplayName")
+                    .DataValueField("Id")
+                    .BindTo((System.Collections.IEnumerable)ViewData["requirementEffortTypes"]))
+            </li>
+            <li>
+                <label asp-for="@Model.IdTeamMember"></label>
+                @(Html.Kendo().DropDownListFor(m => m.IdTeamMember)
+                    .HtmlAttributes(new {style = "width:100%"})
+                    .OptionLabel("Select a Team Member...")
+                    .DataTextField("FullName")
+                    .DataValueField("Id")
+                    .BindTo((System.Collections.IEnumerable)ViewData["teamMembers"]))
+            </li>
+            <li>
+                <label asp-for="@Model.IdTimeFrame"></label>
+                @(Html.Kendo().DropDownListFor(m => m.IdTimeFrame)
+                    .HtmlAttributes(new { id = "createPopUpTimeFrame", style = "width:100%"})
+                    .OptionLabel("Select a Time Frame...")
+                    .DataTextField("DisplayName")
+                    .DataValueField("Id")
+                    .Events(e =>
+                    {
+                        e.Change("createOnSelect");
+                    })
+                    .BindTo((System.Collections.IEnumerable)ViewData["timeFrames"]))
+            </li>
+            <li>
+                <label asp-for="@Model.DateFrom"></label>
+                @(Html.Kendo().DatePickerFor(m => m.DateFrom)
+                    .HtmlAttributes(new {id = "createPopUpDateFrom",  style = "width:100%"})
+                    .Enable(false)
+                    .Events(e =>
+                    {
+                        e.Change("createPopUpDateFromChange");
+                    })
+                    )
+            </li>
+            <li>
+                <label asp-for="@Model.DateTo"></label>
+                @(Html.Kendo().DatePickerFor(m => m.DateTo)
+                    .HtmlAttributes(new {id = "createPopUpDateTo",  style = "width:100%"})
+                    .Enable(false)
+                    )
+            </li>
+            <li>
+                <label asp-for="@Model.TimeExpended"></label>
+                @(Html.Kendo().NumericTextBoxFor(m => m.TimeExpended)
+                    .HtmlAttributes(new { style = "width:100%"})
+                    .Decimals(1)
+                    .Format("#.0")
+                    .Min(0)
+                    .Step(.1m)
+                    )
+            </li>
+            <li>
+                <p>
+                    @(Html.Kendo().Button()
+                        .Name("createRequirementEffortButton")
+                        .Tag("a")
+                        .Icon("plus")
+                        .Content("Add Effort"))
+                </p>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $("#createRequirementEffortPopUpForm").kendoValidator({
+            // You can define your custom rules here:
+            //rules: {}
+
+        });
+    });
+
+    $("#createRequirementEffortPopUpForm").bind("submit", function (e) {
+        e.preventDefault();
+
+        $("#createPopUpDateTo").data("kendoDatePicker").enable(true);
+
+        $.ajax({
+            url: '/RequirementEfforts/Create/',
+            type: 'post',
+            data: $('#createRequirementEffortPopUpForm').serialize(),
+            success: function () {
+                $("#createRequirementEffortPopUpForm").closest(".k-window-content").data("kendoWindow").close();
+                $('#createRequirementEffortPopUpForm')[0].reset();
+            },
+            error: function () {
+                $("#createPopUpDateTo").data("kendoDatePicker").enable(false);
+            }
+        });
+    });
+
+    $("#createRequirementEffortButton").bind("click",
+        function () {
+            $("#createRequirementEffortPopUpForm").submit();
+        });
+
+</script>

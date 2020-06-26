@@ -25,5 +25,7 @@ namespace ProjectManagementSystem.ViewModels
         public List<Risk> Risks { get; set; }
 
         public List<RequirementViewModel> Requirements { get; set; }
+
+        public List<RequirementEffortViewModel> RequirementEfforts { get; set; }
     }
 }

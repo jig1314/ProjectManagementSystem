@@ -53,11 +53,46 @@ namespace ProjectManagementSystem.Controllers
                     OwnerName = project.OwnerName,
                     TeamMembers = await GetProjectTeamMembers(id),
                     Risks = await GetProjectRisks(id),
-                    Requirements = await GetProjectRequirements(id)
+                    Requirements = await GetProjectRequirements(id),
+                    RequirementEfforts = await GetProjectRequirementEfforts(id)
                 };
             }
 
             return View(viewModel);
+        }
+
+        private async Task<List<RequirementEffortViewModel>> GetProjectRequirementEfforts(int? idProject)
+        {
+            var requirementEffortTypes = await _context.RequirementEffortTypes.ToListAsync();
+            var teamMembers = await _context.TeamMember.ToListAsync();
+            var timeFrames = await _context.TimeFrames.ToListAsync();
+
+            var requirements = await _context.Requirement.ToListAsync();
+            var projectRequirementsIds = requirements.Where(r => r.IdProject == idProject).Select(req => req.Id);
+
+            var requirementEfforts = await _context.RequirementEffort.ToListAsync();
+            var projectRequirementEfforts = requirementEfforts.Join(projectRequirementsIds,
+                effort => effort.IdRequirement,
+                id => id,
+                (effort, id) => effort);
+
+            return projectRequirementEfforts.Select(effort => new RequirementEffortViewModel()
+            {
+                Id = effort.Id,
+                RequirementEffort = effort,
+                Requirement = requirements.FirstOrDefault(req => req.Id == effort.IdRequirement),
+                RequirementEffortType = requirementEffortTypes.FirstOrDefault(type => type.Id == effort.IdRequirementEffortType),
+                TeamMember = teamMembers.Where(mem => mem.Id == effort.IdTeamMember).Select(mem => new TeamMemberViewModel()
+                {
+                    Id = mem.Id,
+                    FirstName = mem.FirstName,
+                    LastName = mem.LastName
+                }).FirstOrDefault(),
+                TimeFrame = _context.TimeFrames.FirstOrDefault(frame => frame.Id == effort.IdTimeFrame),
+                DateFrom = effort.DateFrom,
+                DateTo = effort.DateTo,
+                TimeExpended = effort.TimeExpended
+            }).ToList();
         }
 
         private async Task<List<RequirementViewModel>> GetProjectRequirements(int? idProject)
@@ -68,7 +103,8 @@ namespace ProjectManagementSystem.Controllers
             return requirements.Where(item => item.IdProject == idProject).Select(item => new RequirementViewModel()
             {
                 Id = item.Id,
-                Requirement = item,
+                RequirementName = item.RequirementName,
+                Description = item.Description,
                 RequirementType = requirementTypes.FirstOrDefault(i => i.Id == item.IdRequirementType)
             }).ToList();
         }
@@ -133,6 +169,11 @@ namespace ProjectManagementSystem.Controllers
             {
                 return NotFound();
             }
+
+            var requirementTypes = await _context.RequirementTypes.ToListAsync();
+            ViewData["requirementTypes"] = requirementTypes;
+            ViewData["defaultRequirementType"] = requirementTypes.FirstOrDefault();
+
             return View(project);
         }
 
@@ -196,7 +237,8 @@ namespace ProjectManagementSystem.Controllers
                     OwnerName = project.OwnerName,
                     TeamMembers = await GetProjectTeamMembers(id),
                     Risks = await GetProjectRisks(id),
-                    Requirements = await GetProjectRequirements(id)
+                    Requirements = await GetProjectRequirements(id),
+                    RequirementEfforts = await GetProjectRequirementEfforts(id)
                 };
 
             }
@@ -236,6 +278,12 @@ namespace ProjectManagementSystem.Controllers
 
             requirements = requirements.Where(r => r.IdProject == id).ToList();
 
+            var requirementEfforts = _context.RequirementEffort.ToList();
+            requirementEfforts = requirementEfforts.Join(requirements,
+                effort => effort.IdRequirement,
+                req => req.Id,
+                (effort, req) => effort).ToList();
+
             _context.ProjectTeamMembers.RemoveRange(projectTeamMembers);
             await _context.SaveChangesAsync();
 
@@ -246,6 +294,9 @@ namespace ProjectManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             _context.Risk.RemoveRange(risks);
+            await _context.SaveChangesAsync();
+
+            _context.RequirementEffort.RemoveRange(requirementEfforts);
             await _context.SaveChangesAsync();
 
             _context.Requirement.RemoveRange(requirements);

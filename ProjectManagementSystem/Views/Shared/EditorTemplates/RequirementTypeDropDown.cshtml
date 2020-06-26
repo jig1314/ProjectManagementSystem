@@ -1,0 +1,7 @@
+﻿@using System.Collections
+@model ProjectManagementSystem.Models.RequirementType
+
+@(Html.Kendo().DropDownListFor(m => m)
+    .DataValueField("Id")
+    .DataTextField("DisplayName")
+    .BindTo((IEnumerable)ViewData["requirementTypes"]))

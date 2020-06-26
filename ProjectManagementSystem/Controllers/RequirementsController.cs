@@ -25,253 +25,123 @@ namespace ProjectManagementSystem.Controllers
         [HttpGet]
         public ActionResult Grid_Read([DataSourceRequest] DataSourceRequest request, int idProject)
         {
+            var viewModels = GetProjectRequirementViewModels(idProject);
+
+            return Json(viewModels.ToDataSourceResult(request));
+        }
+
+        private IEnumerable<RequirementViewModel> GetProjectRequirementViewModels(int idProject)
+        {
             var requirements = _context.Requirement.ToList();
             var requirementTypes = _context.RequirementTypes.ToList();
             var projectRequirements = requirements.Where(item => item.IdProject == idProject);
             var viewModels = projectRequirements.Select(item => new RequirementViewModel()
             {
                 Id = item.Id,
-                Requirement = item,
+                RequirementName = item.RequirementName,
+                Description = item.Description,
                 RequirementType = requirementTypes.FirstOrDefault(type => type.Id == item.IdRequirementType)
             });
-
-            return Json(viewModels.ToDataSourceResult(request));
-        }
-        public ActionResult Grid_PopupCreate(int idProject)
-        {
-            var viewModel = new RequirementViewModel()
-            {
-                Requirement = new Requirement()
-                {
-                    IdProject = idProject
-                }
-            };
-
-            return PartialView("Grid_PopupCreate", viewModel);
+            return viewModels;
         }
 
-        public JsonResult DropDown_RequirementTypes()
-        {
-            var requirementTypes = _context.RequirementTypes.ToList();
-
-            return Json(requirementTypes);
-        }
-
-        // POST: Requirements/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RequirementViewModel requirementViewModel)
+        public async Task<IActionResult> Grid_Create([DataSourceRequest] DataSourceRequest request, int idProject, [Bind(Prefix = "models")] IEnumerable<RequirementViewModel> requirementViewModels)
         {
-            if (ModelState.IsValid)
+            foreach (var viewModel in requirementViewModels)
             {
-                _context.Add(requirementViewModel.Requirement);
-                await _context.SaveChangesAsync();
-
-                var project = await _context.Project.FirstOrDefaultAsync(p => p.Id == requirementViewModel.Requirement.IdProject);
-                return RedirectToAction("Edit", "Projects", project);
-            }
-            return Json(new { error = "The Requirement could not be added to this project!" });
-        }
-
-        public ActionResult Grid_PopupEdit(int idRequirement)
-        {
-            var requirement = _context.Requirement.FirstOrDefault(req => req.Id == idRequirement);
-            var requirementType = _context.RequirementTypes.FirstOrDefault(type => type.Id == requirement.IdRequirementType);
-
-            var viewModel = new RequirementViewModel()
-            {
-                Id = requirement.Id,
-                Requirement = requirement,
-                RequirementType = requirementType
-            };
-
-            return PartialView("Grid_PopupEdit", viewModel);
-        }
-
-        // POST: Requirements/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, RequirementViewModel requirementViewModel)
-        {
-            if (id != requirementViewModel.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(requirementViewModel.Requirement);
+                    var requirement = new Requirement()
+                    {
+                        IdProject = idProject,
+                        RequirementName = viewModel.RequirementName,
+                        Description = viewModel.Description,
+                        IdRequirementType = viewModel.RequirementType.Id
+                    };
+                    _context.Add(requirement);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+            }
+            
+            var viewModels = GetProjectRequirementViewModels(idProject);
+
+            return Json(viewModels.ToDataSourceResultAsync(request));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Grid_Update([DataSourceRequest] DataSourceRequest request, int idProject, [Bind(Prefix = "models")] IEnumerable<RequirementViewModel> requirementViewModels)
+        {
+            if (requirementViewModels != null && ModelState.IsValid)
+            {
+                foreach (var viewModel in requirementViewModels)
                 {
-                    if (!RequirementExists(requirementViewModel.Id))
+                    try
                     {
-                        return NotFound();
+                        var requirement = new Requirement()
+                        {
+                            Id = viewModel.Id,
+                            IdProject = idProject,
+                            RequirementName = viewModel.RequirementName,
+                            Description = viewModel.Description,
+                            IdRequirementType = viewModel.RequirementType.Id
+                        };
+                        _context.Update(requirement);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!RequirementExists(viewModel.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
-                var project = await _context.Project.FirstOrDefaultAsync(p => p.Id == requirementViewModel.Requirement.IdProject);
-                return RedirectToAction("Edit", "Projects", project);
             }
-            return Json(new { error = "The Requirement could not be updated!" });
+            var viewModels = GetProjectRequirementViewModels(idProject);
+
+            return Json(viewModels.ToDataSourceResultAsync(request));
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Grid_Destroy([DataSourceRequest] DataSourceRequest request, RequirementViewModel requirementViewModel)
+        public async Task<IActionResult> Grid_Destroy([DataSourceRequest] DataSourceRequest request, int idProject, [Bind(Prefix = "models")] IEnumerable<RequirementViewModel> requirementViewModels)
         {
-            if (requirementViewModel != null)
+            if (requirementViewModels != null)
             {
-                _context.Requirement.Remove(requirementViewModel.Requirement);
+                var requirements = requirementViewModels.Select(viewModel => new Requirement()
+                {
+                    Id = viewModel.Id,
+                    IdProject = idProject,
+                    RequirementName = viewModel.RequirementName,
+                    Description = viewModel.Description,
+                    IdRequirementType = viewModel.RequirementType.Id
+                });
+
+                var requirementEfforts = _context.RequirementEffort.ToList();
+                requirementEfforts = requirementEfforts.Join(requirements,
+                    effort => effort.IdRequirement,
+                    req => req.Id,
+                    (effort, req) => effort).ToList();
+
+                _context.RequirementEffort.RemoveRange(requirementEfforts);
                 await _context.SaveChangesAsync();
-                return Json(new { success = "The Requirement deleted successfully!" });
+
+                _context.Requirement.RemoveRange(requirements);
+                await _context.SaveChangesAsync();
             }
 
-            return Json(new { error = "The Requirement could not be deleted!" });
+            var viewModels = GetProjectRequirementViewModels(idProject);
+
+            return Json(viewModels.ToDataSourceResultAsync(request));
         }
 
         private bool RequirementExists(int id)
         {
             return _context.Requirement.Any(e => e.Id == id);
         }
-
-        #region Generated Methods
-
-        //// GET: Requirements
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Requirement.ToListAsync());
-        //}
-
-        //// GET: Requirements/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var requirement = await _context.Requirement
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (requirement == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(requirement);
-        //}
-
-        //// GET: Requirements/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Requirements/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,RequirementName,Description,IdRequirementType")] Requirement requirement)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(requirement);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(requirement);
-        //}
-
-        //// GET: Requirements/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var requirement = await _context.Requirement.FindAsync(id);
-        //    if (requirement == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(requirement);
-        //}
-
-        //// POST: Requirements/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,RequirementName,Description,IdRequirementType")] Requirement requirement)
-        //{
-        //    if (id != requirement.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(requirement);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!RequirementExists(requirement.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(requirement);
-        //}
-
-        //// GET: Requirements/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var requirement = await _context.Requirement
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (requirement == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(requirement);
-        //}
-
-        //// POST: Requirements/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var requirement = await _context.Requirement.FindAsync(id);
-        //    _context.Requirement.Remove(requirement);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        #endregion
     }
 }
