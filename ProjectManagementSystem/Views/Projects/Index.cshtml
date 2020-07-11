@@ -1,13 +1,11 @@
 ﻿@model IEnumerable<ProjectManagementSystem.Models.Project>
 
-@{
-    ViewData["Title"] = "Browse Projects";
-}
+@{ ViewData["Title"] = "Browse Projects"; }
 
 <h1>Projects</h1>
 
 <p>
-    <a asp-action="Create" class="k-button">Add New Project</a>
+    <a asp-action="Create" class="k-button"><span class="k-icon k-i-plus"></span>Add New Project</a>
 </p>
 <table class="table">
     <thead>
@@ -25,23 +23,23 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OwnerName)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id" class="k-button">View Details</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id" class="k-button">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="k-button">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OwnerName)
+    </td>
+    <td>
+        <a asp-action="Details" asp-route-id="@item.Id" class="k-button">View Details</a> |
+        <a asp-action="Edit" asp-route-id="@item.Id" class="k-button">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id" class="k-button">Delete</a>
+    </td>
+</tr>}
     </tbody>
 </table>
