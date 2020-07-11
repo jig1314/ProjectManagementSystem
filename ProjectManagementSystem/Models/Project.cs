@@ -17,6 +17,7 @@ namespace ProjectManagementSystem.Models
         public string Name { get; set; }
 
         [DisplayName("High-Level Description")]
+        [DataType(DataType.MultilineText)]
         [Required]
         public string Description { get; set; }
 

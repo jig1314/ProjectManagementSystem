@@ -33,25 +33,19 @@
                 @Html.LabelFor(model => model.Name)
             </p>
             <ul>
-                <li class="field">
-                    @Html.DisplayTextFor(model => model.Name)
-                </li>
+                <li class="field">@Html.DisplayTextFor(model => model.Name)</li>
             </ul>
             <p class="label">
                 @Html.LabelFor(model => model.OwnerName)
             </p>
             <ul>
-                <li class="field">
-                    @Html.DisplayFor(model => model.OwnerName)
-                </li>
+                <li class="field">@Html.DisplayTextFor(model => model.OwnerName)</li>
             </ul>
             <p class="label">
                 @Html.LabelFor(model => model.Description)
             </p>
             <ul>
-                <li class="field">
-                    @Html.DisplayFor(model => model.Description)
-                </li>
+                <li class="field">@Html.DisplayTextFor(model => model.Description)</li>
             </ul>
 
             <form asp-action="Delete">
@@ -156,18 +150,18 @@
         margin: 0 0 0em;
         padding: 0;
         width: 100%;
+        white-space: pre-line;
     }
 
     #tabStrip > .k-content {
         overflow: visible;
     }
-    
-    .k-grid  .k-grid-header  .k-header  .k-link {
+
+    .k-grid .k-grid-header .k-header .k-link {
         height: auto;
     }
-  
-    .k-grid  .k-grid-header  .k-header {
+
+    .k-grid .k-grid-header .k-header {
         white-space: normal;
     }
-
 </style>
