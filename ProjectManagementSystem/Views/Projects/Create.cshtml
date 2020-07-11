@@ -20,7 +20,7 @@
             </li>
             <li>
                 <label asp-for="Description"></label>
-                <input asp-for="Description" class="k-textbox" />
+                @Html.TextAreaFor(m => m.Description, new { @class = "k-textbox", style = "height:100px; width: 100%;" })
             </li>
             <li>
                 <button id="createProject" type="submit" data-role="button" data-icon="plus">Create Project</button> |
@@ -59,6 +59,10 @@
     #fieldlist label {
         display: block;
         font-weight: bold;
+    }
+
+    #fieldlist input {
+        width: 100%;
     }
 
 </style>
