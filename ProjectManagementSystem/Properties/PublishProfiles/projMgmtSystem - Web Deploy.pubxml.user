@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAzB2imvfAokmCedIP8a+KVgAAAAACAAAAAAAQZgAAAAEAACAAAADlJJ97qrEtv06lSztWvB56p/P5R2p/gAJ3C4P5FeFjFwAAAAAOgAAAAAIAACAAAABGz3W6Bda/BLcSEsA0WBt2iuNBEy/RlKrUdP5V7RF/24AAAAAmS1w7sXmYiwd/WzDFe1wggUQ1pZP1fwnDutbiRF8wNL/jJjlfoBP+IHCSFkh4lVhg7t3fHq+s68E1R3OD65VUMZjest3kWgiBF2QuOO+HvuclBBjyfNIZr66vY7whNpIgC/CgdvQcKqJCSVBIw8ZH/e/d2J6TzlTmhH0dRLKMU0AAAAAhT9X8aErpBfnwU/qEnGHMw+UUfCXD5Ahrb9j2jYioc/MZLS3DSA6FXf7ZblJ2CT/Lyp7osI0YPDadjQe8I/GY</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="ProjectContext">
+      <Value>Data Source=tcp:projmgmtsystem.database.windows.net,1433%3bInitial Catalog=ProjectManagementSystem%3bUser Id=jgambl24%3bPassword=B3tterthanyou!%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="ProjectManagementSystem.Data.ProjectContext">
+      <Value>Data Source=tcp:projmgmtsystem.database.windows.net,1433%3bInitial Catalog=ProjectManagementSystem%3bUser Id=jgambl24%3bPassword=B3tterthanyou!%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

@@ -2,38 +2,46 @@
     ViewData["Title"] = "Home";
 }
 
-<div>
-
-        @(Html.Kendo().PanelBar()
-                    .Name("IntroPanelBar")
-                    .Items(items =>
-                    {
-                        items.Add()
-                            .Text("ASP.NET Core")
-                            .Selected(true)
-                            .Expanded(true)
-                            .Content(@<text>
-                                <p style="padding:1em 2em">
-                                    Learn how to build ASP.NET apps that can run anywhere.
-                                    <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">Learn More</a>
-                                </p>
-                            </text>);
-                                items.Add()
-                                    .Text("Visual Studio")
-                                    .Content(@<text>
-                                        <p style="padding:1em 2em">
-                                            There are powerful new features in Visual Studio for building modern web apps.
-                                            <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">Learn More</a>
-                                        </p>
-                                    </text>);
-                                        items.Add()
-                                            .Text("Package Management")
-                                            .Content(@<text>
-                                                <p style="padding:1em 2em">
-                                                    Bring in libraries from NuGet, Bower, and npm, and automate tasks using Grunt or Gulp.
-                                                    <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">Learn More</a>
-                                                </p>
-                                            </text>);
-                                            })
-            )
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Project Management System</h1>
+    <p>SWE 6633 Summer 2020 (Group 2)</p>
+    <p>
+        <a asp-controller="Projects" asp-action="Index">Continue To Projects...</a>
+    </p>
 </div>
+
+@*<div>
+
+            @(Html.Kendo().PanelBar()
+                        .Name("IntroPanelBar")
+                        .Items(items =>
+                        {
+                            items.Add()
+                                .Text("ASP.NET Core")
+                                .Selected(true)
+                                .Expanded(true)
+                                .Content(@<text>
+                                    <p style="padding:1em 2em">
+                                        Learn how to build ASP.NET apps that can run anywhere.
+                                        <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">Learn More</a>
+                                    </p>
+                                </text>);
+                                    items.Add()
+                                        .Text("Visual Studio")
+                                        .Content(@<text>
+                                            <p style="padding:1em 2em">
+                                                There are powerful new features in Visual Studio for building modern web apps.
+                                                <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">Learn More</a>
+                                            </p>
+                                        </text>);
+                                            items.Add()
+                                                .Text("Telerik")
+                                                .Content(@<text>
+                                                    <p style="padding:1em 2em">
+                                                        Modern UI Made Easy.
+                                                        <a target="_blank" href="https://www.telerik.com/">Learn More</a>
+                                                    </p>
+                                                </text>);
+                                                })
+                )
+    </div>*@

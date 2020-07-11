@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>ProjectManagementSystem</AssemblyName>
+    <UserSecretsId>be4556be-9a5a-481c-8cad-2fee3d1415d4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
