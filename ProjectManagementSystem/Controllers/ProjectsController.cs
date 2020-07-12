@@ -151,7 +151,7 @@ namespace ProjectManagementSystem.Controllers
             {
                 _context.Add(project);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Edit), project);
+                return RedirectToAction(nameof(Edit), new {id = project.Id});
             }
             return View(project);
         }
