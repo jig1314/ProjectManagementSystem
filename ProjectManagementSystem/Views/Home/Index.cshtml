@@ -4,44 +4,53 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to the Project Management System</h1>
-    <p>SWE 6633 Summer 2020 (Group 2)</p>
+    <p>SWE 6633 - Summer 2020 (Group 2)</p>
     <p>
-        <a asp-controller="Projects" asp-action="Index">Continue To Projects...</a>
+        <img class="card-img" src="~/images/KennesawStateLogo.jpg"/>
     </p>
 </div>
 
-@*<div>
+<div>
 
-            @(Html.Kendo().PanelBar()
-                        .Name("IntroPanelBar")
-                        .Items(items =>
-                        {
-                            items.Add()
-                                .Text("ASP.NET Core")
-                                .Selected(true)
-                                .Expanded(true)
-                                .Content(@<text>
-                                    <p style="padding:1em 2em">
-                                        Learn how to build ASP.NET apps that can run anywhere.
-                                        <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">Learn More</a>
-                                    </p>
-                                </text>);
-                                    items.Add()
-                                        .Text("Visual Studio")
-                                        .Content(@<text>
-                                            <p style="padding:1em 2em">
-                                                There are powerful new features in Visual Studio for building modern web apps.
-                                                <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">Learn More</a>
-                                            </p>
-                                        </text>);
-                                            items.Add()
-                                                .Text("Telerik")
-                                                .Content(@<text>
-                                                    <p style="padding:1em 2em">
-                                                        Modern UI Made Easy.
-                                                        <a target="_blank" href="https://www.telerik.com/">Learn More</a>
-                                                    </p>
-                                                </text>);
-                                                })
-                )
-    </div>*@
+    @(Html.Kendo().PanelBar()
+        .Name("IntroPanelBar")
+        .Items(items =>
+        {
+            items.Add()
+                .Text("Introduction")
+                .Selected(true)
+                .Expanded(true)
+                .Content(@<text>
+                             <p style="padding: 1em 2em; margin:0 0" >
+                                 Project Management System is designed to be a simple and effective solution for project management. The system provides the ability to track project team membership, project risks and risk status, project requirements (functional and non-functional) and project labor/efforts.
+                             </p>
+                             <p style="padding:0em 2em">
+                                 <a asp-controller="Projects" asp-action="Index">View Projects...</a>
+                             </p>
+                          </text>);
+            items.Add()
+                .Text("Source Code")
+                .Content(@<text>
+                             <p style="padding:1em 2em">
+                                 The source code for Project Management System is hosted on GitHub.
+                                 <a target="_blank" href="https://github.com/jig1314/ProjectManagementSystem">View GitHub...</a>
+                             </p>
+                          </text>);
+            items.Add()
+                .Text("User Manual")
+                .Content(@<text>
+                             <p style="padding:1em 2em">
+                                 The user manual for Project Management System is hosted on GitHub. Please see ReadMe for more information.
+                                 <a target="_blank" href="https://github.com/jig1314/ProjectManagementSystem">View GitHub...</a>
+                             </p>
+                          </text>);
+        })
+        )
+</div>
+
+<style>
+    .card-img{
+        width: 200px;
+        height: 200px;
+    }
+</style>

@@ -41,4 +41,12 @@
     <Compile Remove="Migrations\20200618012757_InitialAPI.Designer.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\images\KennesawStateLogo.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\KennesawStateLogo.jpg" />
+  </ItemGroup>
+
 </Project>

@@ -15,12 +15,13 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-	<link href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.moonlight.min.css" rel="stylesheet" type="text/css" />
-	<script src="https://kendo.cdn.telerik.com/2020.2.513/js/jquery.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2020.2.513/js/jszip.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2020.2.513/js/kendo.all.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2020.2.513/js/kendo.aspnetmvc.min.js"></script>
+    <link rel="shortcut icon" href="/images/KennesawStateLogo.jpg" type="image/x-icon" />
+    <link href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2020.2.513/styles/kendo.moonlight.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://kendo.cdn.telerik.com/2020.2.513/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.2.513/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.2.513/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.2.513/js/kendo.aspnetmvc.min.js"></script>
 </head>
 <body class="k-content">
     <nav class="navbar navbar-inverse navbar-fixed-top p-3">
@@ -37,7 +38,7 @@
                                 {
                                     items.Add().Text("Home").Action("Index", "Home", new { area = "" });
                                     items.Add().Text("Projects").Action("Index", "Projects", new { area = "" });
-                                    //items.Add().Text("About").Action("About", "Home", new { area = "" });
+                                    items.Add().Text("About").Action("About", "Home", new { area = "" });
                                     //items.Add().Text("Contact").Action("Contact", "Home", new { area = "" });
                                 })
                     )
@@ -56,7 +57,7 @@
         <div class="container pb-0">
             <hr />
             <p class="text-muted">
-                Copyright © @DateTime.Now.Year SWE 6633 Group 2 and/or its subsidiaries or affiliates. All rights reserved.
+                Copyright © @DateTime.Now.Year SWE 6633 - Summer 2020 (Group 2) and/or its subsidiaries or affiliates. All rights reserved.
             </p>
         </div>
     </footer>
