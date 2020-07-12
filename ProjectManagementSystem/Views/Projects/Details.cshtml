@@ -45,8 +45,8 @@
                 <li class="field">@Html.DisplayTextFor(model => model.Description)</li>
             </ul>
 
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="k-button">Edit</a> |
-            <a asp-action="Index" class="k-button">Back to List</a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="k-button"><span class="k-icon k-i-edit"></span>Edit</a> |
+            <a asp-action="Index" class="k-button"><span class="k-icon k-i-undo"></span>Back to List</a>
         </div>
         <div>
             @(Html.Kendo().Grid<TeamMember>(Model.TeamMembers)
@@ -98,7 +98,7 @@
             <div id="effortButtonBox">
                 @(Html.Kendo().Button()
                     .Name("viewProjectAnalysisButton")
-                    .HtmlAttributes(new { type = "button" })
+                    .HtmlAttributes(new { type = "button" }).IconClass("k-icon k-i-graph")
                     .Content("Analyze Project Status"))
             </div>
 
@@ -188,6 +188,14 @@
 
     .k-grid .k-grid-header .k-header {
         white-space: normal;
+    }
+
+    .k-i-edit {
+        margin-right: .2em;
+    }
+    
+    .k-i-undo{
+        margin-right: .3em;
     }
 
 </style>

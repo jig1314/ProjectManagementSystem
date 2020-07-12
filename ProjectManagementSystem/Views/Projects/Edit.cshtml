@@ -42,7 +42,7 @@
                     </li>
                     <li class="actions">
                         <button type="submit" data-role="button" data-icon="check">Update Project</button> |
-                        <a asp-action="Index" class="k-button">Back to List</a>
+                        <a asp-action="Index" class="k-button"><span class="k-icon k-i-undo"></span>Back to List</a>
                     </li>
                 </ul>
             </div>
@@ -217,7 +217,7 @@
                     <button id="addRequirmentEffortButton" type="button" data-role="button" data-icon="plus">Add Effort</button> | 
                     @(Html.Kendo().Button()
                         .Name("viewProjectAnalysisButton")
-                        .HtmlAttributes(new { type = "button" })
+                        .HtmlAttributes(new { type = "button" }).IconClass("k-icon k-i-graph")
                         .Content("Analyze Project Status"))
                 </div>
 
@@ -234,7 +234,7 @@
                         columns.Bound(p => p.TimeExpended);
                         columns.Command(command =>
                         {
-                            command.Custom("Edit").IconClass("k-i-pencil").Click("EditRequirementEffort");
+                            command.Custom("Edit").IconClass("k-icon k-i-edit").Click("EditRequirementEffort");
                         }).Width(100);
                         columns.Command(command =>
                         {
@@ -512,6 +512,14 @@
   
     .k-grid  .k-grid-header  .k-header {
         white-space: normal;
+    }
+
+    .k-i-edit{
+        margin-right: .2em;
+    }
+
+    .k-i-undo{
+        margin-right: .3em;
     }
 
 </style>

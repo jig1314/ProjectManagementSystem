@@ -24,7 +24,7 @@
             </li>
             <li>
                 <button id="createProject" type="submit" data-role="button" data-icon="plus">Create Project</button> |
-                <a asp-action="Index" class="k-button">Back to List</a>
+                <a asp-action="Index" class="k-button"><span class="k-icon k-i-undo"></span>Back to List</a>
             </li>
         </ul>
     </form>
@@ -63,6 +63,10 @@
 
     #fieldlist input {
         width: 100%;
+    }
+
+    .k-i-undo{
+        margin-right: .3em;
     }
 
 </style>

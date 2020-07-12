@@ -50,8 +50,8 @@
 
             <form asp-action="Delete">
                 <input type="hidden" asp-for="Id" />
-                <input type="submit" value="Delete" class="k-button" /> |
-                <a asp-action="Index" class="k-button">Back to List</a>
+                <button type="submit" class="k-button"><span class="k-icon k-i-delete"></span>Delete Project</button> |
+                <a asp-action="Index" class="k-button"><span class="k-icon k-i-undo"></span>Back to List</a>
             </form>
         </div>
         <div>
@@ -164,4 +164,9 @@
     .k-grid .k-grid-header .k-header {
         white-space: normal;
     }
+    
+    .k-i-undo{
+        margin-right: .3em;
+    }
+
 </style>

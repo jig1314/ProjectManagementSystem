@@ -30,15 +30,23 @@
             <td id="descriptionColumn">@Html.DisplayFor(modelItem => item.Description) </td>
             <td>@Html.DisplayFor(modelItem => item.OwnerName) </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id" class="k-button">View Details</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id" class="k-button">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="k-button">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="k-button"><span class="k-icon k-i-folder"></span>View Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id" class="k-button"><span class="k-icon k-i-edit"></span>Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="k-button"><span class="k-icon k-i-delete"></span>Delete</a>
             </td>
         </tr>}
     </tbody>
 </table>
 
 <style>
+    .k-i-folder {
+        margin-right: .2em;
+    }
+
+    .k-i-edit{
+        margin-right: .2em;
+    }
+
     #descriptionColumn {
         white-space: pre-line;
     }
