@@ -33,7 +33,7 @@ namespace ProjectManagementSystem.Models
         [DisplayName("Date To")]
         public DateTime? DateTo { get; set; }
 
-        [DisplayName("Time Expended")]
+        [DisplayName("Time Expended (in hrs)")]
         [Column(TypeName = "decimal(16,1)")]
         [Required]
         public decimal TimeExpended { get; set; }

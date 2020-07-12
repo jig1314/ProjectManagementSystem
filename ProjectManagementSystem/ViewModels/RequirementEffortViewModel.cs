@@ -31,7 +31,7 @@ namespace ProjectManagementSystem.ViewModels
         [DisplayName("End Date")]
         public DateTime? DateTo { get; set; }
 
-        [DisplayName("Time Expended")]
+        [DisplayName("Time Expended (in hrs)")]
         public decimal TimeExpended { get; set; }
 
     }
