@@ -13,10 +13,12 @@ namespace ProjectManagementSystem.Models
         public int Id { get; set; }
 
         [DisplayName("First Name")]
+        [RegularExpression("^([A-Z][a-zA-Z]{1,})$", ErrorMessage = "Please enter a valid first name only!")]
         [Required]
         public string FirstName { get; set; }
 
         [DisplayName("Last Name")]
+        [RegularExpression("^([A-Z][a-zA-Z]{1,})$", ErrorMessage = "Please enter a valid last name only!")]
         [Required]
         public string LastName { get; set; }
 

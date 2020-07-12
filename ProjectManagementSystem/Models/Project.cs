@@ -22,6 +22,7 @@ namespace ProjectManagementSystem.Models
         public string Description { get; set; }
 
         [DisplayName("Project Manager/Owner Name")]
+        [RegularExpression("^([A-Z][a-zA-Z]{1,})(?: [A-Z][a-zA-Z]{0,})?(?: [A-Z][a-zA-Z]{1,})$", ErrorMessage = "Please enter a valid first and last name (Middle name optional)")]
         [Required]
         public string OwnerName { get; set; }
     }

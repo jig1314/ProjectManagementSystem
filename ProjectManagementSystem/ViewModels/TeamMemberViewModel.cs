@@ -11,8 +11,12 @@ namespace ProjectManagementSystem.ViewModels
     {
         public int Id { get; set; }
 
+        [RegularExpression("^([A-Z][a-zA-Z]{1,})$", ErrorMessage = "Please enter a valid first name only!")]
+        [Required]
         public string FirstName { get; set; }
 
+        [RegularExpression("^([A-Z][a-zA-Z]{1,})$", ErrorMessage = "Please enter a valid last name only!")]
+        [Required]
         public string LastName { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
